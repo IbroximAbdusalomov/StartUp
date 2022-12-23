@@ -33,3 +33,5 @@ async def category_2(callback: types.CallbackQuery, state: FSMContext):
 
 def register_search(dp: Dispatcher):
     dp.register_callback_query_handler(start_category, text='search')
+    dp.register_callback_query_handler(category_1, text=['used', 'new', 'raw material', 'frame'])
+    dp.register_callback_query_handler(category_2, text=['agro', 'tekstil', 'metal', 'mebel', 'plastik'])
