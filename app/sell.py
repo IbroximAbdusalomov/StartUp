@@ -1,9 +1,8 @@
 from datetime import datetime
-
 from aiogram import types
 from buttons import main_mane_2_uz, main_mane_2_en, sub_category_uz, sub_category_en, main_menu_uz, main_menu_en
 from create_bot import Dispatcher, db, bot
-from func_ import check_lan, check_lan_and_btn
+from app.func_ import check_lan, check_lan_and_btn
 from states import InsetProduct
 from messages import Tanlang_uz, Tanlang_en, image_uz, image_en, desc_uz, desc_en
 from aiogram.dispatcher import FSMContext
@@ -48,7 +47,6 @@ async def sell_product_5(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['category'] = callback.data
         data['user_id'] = callback.from_user.id
-        # user = db.select_user(callback.from_user.id)
         data['user_name'] = callback.from_user.full_name
         data['created_at'] = datetime.strftime(datetime.now(), '%Y-%m-%d')
     if db.coin(callback.from_user.id):
@@ -59,7 +57,6 @@ async def sell_product_5(callback: types.CallbackQuery, state: FSMContext):
     else:
         await bot.send_message(callback.from_user.id, "Sizda ball kam!")
 
-    # await check_lan_and_btn(callback.from_user.id, "Menu", "Menu", main_menu_uz(), main_menu_en())
     await state.finish()
 
 

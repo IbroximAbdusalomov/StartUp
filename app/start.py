@@ -4,7 +4,6 @@ from aiogram.types import ContentType
 from buttons import phone, choice_lang, main_menu_en, main_menu_uz
 from messages import uz_name, en_name, uz_phone, en_phone, uz_name_wrong, en_name_wrong, uz_register, en_registerd
 from states import CreateUserState
-# from create_bot import db
 from create_bot import bot, db, Dispatcher
 
 
@@ -16,7 +15,6 @@ async def main_send_welcome(message: types.Message):
                                "Tilni tanlang:*", parse_mode='markdown', reply_markup=choice_lang())
         await CreateUserState.lang.set()
     elif db.chek_user_lang(message.from_user.id) == 'en':
-        # if await db.chek_user_lang(message.from_user.id) == "en":
         await message.answer("Log in", reply_markup=main_menu_en())
     elif db.chek_user_lang(message.from_user.id) == 'uz':
         await message.answer("Log in", reply_markup=main_menu_uz())
