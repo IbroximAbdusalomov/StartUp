@@ -37,13 +37,13 @@ class DataBase:
     #                 "INSERT INTO users ('') VALUES (?,?,?,?,?)",
     #                 (user_id, name, phone, tuple(data.values()), date.strftime("%Y-%m-%d"),))
 
-    def search_posts(self, category_1):
+    def search_posts(self, category_1, category_2):
         with self.connection:
             result = self.cursor.execute("SELECT * FROM products where product_type = ? and sub_category = ?",
                                          (category_1, category_2,)).fetchall()
             return result
 
-    def chek_user_lang(self, user_id):
+    def check_user_lang(self, user_id):
         with self.connection:
             result = self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
             return result[7]
@@ -74,6 +74,10 @@ class DataBase:
 
     def my_posts(self, id):
         return self.cursor.execute("""SELECT * FROM products WHERE user_id = ?""", (id,))
+
+    def get_phone(self, id):
+        phone = self.cursor.execute("SELECT phone from users where user_id = ?", (id,))
+        return phone
 
 
 def set_ball(self, user_id, ball):
