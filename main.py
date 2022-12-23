@@ -5,9 +5,7 @@ from create_bot import dp
 logging.basicConfig(level=logging.INFO)
 
 
-@dp.message_handler()
-async def wellcome(message: types.Message):
-    await message.answer(message.text)
+
 
 
 if __name__ == '__main__':
