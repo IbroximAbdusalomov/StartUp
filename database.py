@@ -39,8 +39,8 @@ class DataBase:
 
     def search_posts(self, category_1):
         with self.connection:
-            result = self.cursor.execute("SELECT * FROM products where product_type = ?",
-                                         (category_1,)).fetchall()
+            result = self.cursor.execute("SELECT * FROM products where product_type = ? and sub_category = ?",
+                                         (category_1, category_2,)).fetchall()
             return result
 
     def chek_user_lang(self, user_id):
