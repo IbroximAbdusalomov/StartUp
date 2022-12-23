@@ -28,10 +28,12 @@ async def category_2(callback: types.CallbackQuery, state: FSMContext):
         post = db.search_posts(category_1=data.get('product_type'), category_2=data.get('sub_category'))
         if post:
             for i in post:
-                await bot.send_photo(callback.from_user.id, text=f"""{i[2]}\n{i[7]}\n{i[5]}\n{i[6]}""")
+                await bot.send_photo(callback.from_user.id, i[2], f"""{i[7]}\n{i[5]}\n{i[6]}""")
 
 
 def register_search(dp: Dispatcher):
     dp.register_callback_query_handler(start_category, text='search')
-    dp.register_callback_query_handler(category_1, text=['used', 'new', 'raw material', 'frame'])
-    dp.register_callback_query_handler(category_2, text=['agro', 'tekstil', 'metal', 'mebel', 'plastik'])
+    dp.register_callback_query_handler(category_1, text=['used', 'new', 'raw material', 'frame'],
+                                       state=CategorysForSearch.product_type)
+    dp.register_callback_query_handler(category_2, text=['agro', 'tekstil', 'metal', 'mebel', 'plastik'],
+                                       state=CategorysForSearch.sub_category)
