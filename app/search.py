@@ -6,7 +6,7 @@ from aiogram import types
 
 from messages import Tanlang_uz, Tanlang_en
 from states import CategorysForSearch
-from func_ import check_lan_and_btn
+from app.func_ import check_lan_and_btn
 
 
 async def start_category(callback: types.CallbackQuery):
