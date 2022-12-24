@@ -27,16 +27,6 @@ class DataBase:
                 "INSERT INTO users ('user_id'  , 'username' , 'phone' , 'created_at' , 'lang') VALUES (?,?,?,?,?)",
                 (user_id, name, phone, date.strftime("%Y-%m-%d"), lang))
 
-    # def add_product(self, user_id, state):
-    #     with self.connection:
-    #         with state.proxy() as data:
-    #             date = datetime.datetime.now()
-    #             name = self.cursor.execute("select username from users where user_id = ?", (user_id,))
-    #             phone = self.cursor.execute("select phone from users where user_id = ?", (user_id,))
-    #             return self.cursor.execute(
-    #                 "INSERT INTO users ('') VALUES (?,?,?,?,?)",
-    #                 (user_id, name, phone, tuple(data.values()), date.strftime("%Y-%m-%d"),))
-
     def search_posts(self, category_1, category_2):
         with self.connection:
             result = self.cursor.execute("SELECT * FROM products where product_type = ? and sub_category = ?",

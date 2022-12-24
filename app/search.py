@@ -1,6 +1,6 @@
 from aiogram.dispatcher import FSMContext
 
-from buttons import main_mane_2_uz, main_mane_2_en, sub_category_uz, sub_category_en
+from buttons import main_mane_2_uz, main_mane_2_en, sub_category_uz, sub_category_en, main_menu_en, main_menu_uz
 from create_bot import db, Dispatcher, bot
 from aiogram import types
 
@@ -28,7 +28,11 @@ async def category_2(callback: types.CallbackQuery, state: FSMContext):
         post = db.search_posts(category_1=data.get('product_type'), category_2=data.get('sub_category'))
         if post:
             for i in post:
-                await bot.send_photo(callback.from_user.id, i[2], f"""{i[7]}\n{i[5]}\n{i[6]}""")
+                await bot.send_photo(callback.from_user.id, i[2], f"""Description: {i[7]}\n {i[5]}\n #{i[6]}""")
+            await check_lan_and_btn(callback.from_user.id, Tanlang_uz, Tanlang_en, main_menu_uz(), main_menu_en())
+        else:
+            await check_lan_and_btn(callback.from_user.id, "E'lon topilmadi", "Post not found", main_menu_uz(),
+                                    main_menu_en())
 
 
 def register_search(dp: Dispatcher):
