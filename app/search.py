@@ -33,6 +33,7 @@ async def category_2(callback: types.CallbackQuery, state: FSMContext):
         else:
             await check_lan_and_btn(callback.from_user.id, "E'lon topilmadi", "Post not found", main_menu_uz(),
                                     main_menu_en())
+    await state.finish()
 
 
 def register_search(dp: Dispatcher):

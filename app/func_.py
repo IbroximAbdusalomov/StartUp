@@ -2,9 +2,9 @@ from create_bot import db, bot
 
 
 async def check_lan(id, text_uz, text_en):
-    if db.chek_user_lang(id) == "uz":
+    if db.check_user_lang(id) == "uz":
         await bot.send_message(id, text=text_uz)
-    elif db.chek_user_lang(id) == "en":
+    elif db.check_user_lang(id) == "en":
         await bot.send_message(id, text=text_en)
 
 

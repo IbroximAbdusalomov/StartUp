@@ -20,3 +20,8 @@ class InsetProduct(StatesGroup):
 class CategorysForSearch(StatesGroup):
     product_type = State()
     sub_category = State()
+
+
+class AddBall(StatesGroup):
+    user_id = State()
+    ball = State()

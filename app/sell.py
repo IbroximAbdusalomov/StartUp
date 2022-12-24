@@ -36,11 +36,9 @@ async def sell_product_4(message: types.Message, state: FSMContext):
         if len(message.text) <= 250:
             data['decription'] = message.text
             await check_lan_and_btn(message.from_user.id, Tanlang_uz, Tanlang_en, sub_category_uz(), sub_category_en())
-            await bot.send_message(message.from_user.id, "Good")
         else:
             await message.answer("Text bilan xatolik")
     await InsetProduct.next()
-    await bot.send_message(message.from_user.id, "Good")
 
 
 async def sell_product_5(callback: types.CallbackQuery, state: FSMContext):

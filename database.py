@@ -69,7 +69,11 @@ class DataBase:
         phone = self.cursor.execute("SELECT phone from users where user_id = ?", (id,))
         return phone
 
+    def get_users(self):
+        with self.connection:
+            return self.cursor.execute("""select * from users""")
+        # return users
 
-def set_ball(self, user_id, ball):
-    with self.connection:
-        return self.cursor.execute("UPDATE users SET ball = ? WHERE user_id = ?", (ball, user_id,))
+    def set_ball(self, user_id, ball):
+        with self.connection:
+            return self.cursor.execute("UPDATE users SET ball = ? WHERE user_id = ?", (ball, user_id,))
