@@ -46,7 +46,7 @@ class DataBase:
     def add_product(self, created_at, photo, user_id, user_name, product_type, sub_category, decription):
         with self.connection:
             return self.cursor.execute(
-                """INSERT INTO products(created_at, photo, user_id, user_name, product_type, sub_category, decription) VALUES (?,?,?,?,?,?,?)""",
+                """INSERT OR IGNORE INTO products(created_at, photo, user_id, user_name, product_type, sub_category, decription) VALUES (?,?,?,?,?,?,?)""",
                 (created_at, photo, user_id, user_name, product_type, sub_category, decription))
 
     def coin(self, id):
