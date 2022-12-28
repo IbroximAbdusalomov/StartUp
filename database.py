@@ -16,9 +16,13 @@ class DataBase:
         with self.connection:
             return self.cursor.execute("UPDATE users SET status = ? WHERE user_id = ?", (status, user_id,))
 
-    def all_users(self, id):
+    def select_user(self, id):
         with self.connection:
-            return self.cursor.execute("Select * from users where user_id = ?", (id,)).fetchone()
+            return self.cursor.execute("select * from users where user_id = ?", (id,))
+
+    def _users(self):
+        with self.connection:
+            return self.cursor.execute("select * from users").fetchall()
 
     def add_user(self, user_id, name, phone, lang):
         with self.connection:
@@ -38,10 +42,14 @@ class DataBase:
             result = self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
             return result[7]
 
-    def select_user(self, id):
+    def all_users(self, id):
         with self.connection:
-            result = self.cursor.execute("select * from users where user_id = ?", (id,))
-            return result
+            return self.cursor.execute("Select * from users where user_id = ?", (id,)).fetchone()
+
+
+    def all_products(self):
+        with self.connection:
+            return self.cursor.execute("select * from products")
 
     def add_product(self, created_at, photo, user_id, user_name, product_type, sub_category, decription):
         with self.connection:
@@ -77,3 +85,7 @@ class DataBase:
     def set_ball(self, user_id, ball):
         with self.connection:
             return self.cursor.execute("UPDATE users SET ball = ? WHERE user_id = ?", (ball, user_id,))
+
+    def new_posts(self, data):
+        with self.connection:
+            return self.cursor.execute("select * from products where create_at = ?", (data,)).fetchall()

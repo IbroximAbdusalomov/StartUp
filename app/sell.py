@@ -53,7 +53,11 @@ async def sell_product_5(callback: types.CallbackQuery, state: FSMContext):
         await check_lan_and_btn(callback.from_user.id, "'Xabar qo'shildi'", "Dd was added", main_menu_en(),
                                 main_menu_en())
     else:
-        await bot.send_message(callback.from_user.id, "Sizda ball kam!")
+        pass
+
+        # await check_lan_and_btn(callback.from_user.id,
+        #                         """Sizda ball kam!\n/help <- bosing qo'shimcha malumotlar chiqadi""", "You ball 0 ",
+        #                         main_menu_uz())
 
     await state.finish()
 

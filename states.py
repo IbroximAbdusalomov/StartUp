@@ -25,3 +25,7 @@ class CategorysForSearch(StatesGroup):
 class AddBall(StatesGroup):
     user_id = State()
     ball = State()
+
+
+class Admin(StatesGroup):
+    data = State()
