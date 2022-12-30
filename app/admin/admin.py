@@ -1,9 +1,15 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+# from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from app.func_ import check_lan
+from buttons import btn_for_admin
 from create_bot import db, Dispatcher, bot
-from states import AddBall
+from states import AddBall, AdminReadNewPostsByData
+
+
+async def admin(message: types.Message):
+    await bot.send_message(message.from_user.id, "Welcome admin", reply_markup=btn_for_admin())
 
 
 # -------------------------------------send all-------------------------------------------------------
@@ -15,12 +21,13 @@ async def addball(message: types.Message):
 
 async def step_1(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        # user_id = db.get_users()
-        if message.text in db.all_users(message.text):
+        user_id = db.user_exists(message.from_user.id)
+        if user_id:
             data['user_id'] = message.text
             await check_lan(message.from_user.id, "Qancha qo'shilsin ?", "How much to add ?")
         else:
             await check_lan(message.from_user.id, "Id topilmadi ?", "Id not found")
+            await state.finish()
     await AddBall.next()
 
 
@@ -29,7 +36,7 @@ async def step_2(message: types.Message, state: FSMContext):
         data['ball'] = message.text
         db.set_ball(data.get('user_id'), data.get('ball'))
     await state.finish()
-    await bot.send_message(message.from_user.id, "Added")
+    await bot.send_message(message.from_user.id, "Added", reply_markup=btn_for_admin())
 
 
 # -------------------------------------send all-------------------------------------------------------
@@ -51,13 +58,41 @@ async def selndall(message: types.message):
 
 # -------------------------------------read new posts by data-------------------------------------------------------
 
+async def read_new_posts(callback: types.CallbackQuery):
+    await AdminReadNewPostsByData.data.set()
+    await bot.send_message(callback.from_user.id, "Send data")
+
+
+async def read_new_posts_step_1(message: types.Message, state: FSMContext):
+    # markup = InlineKeyboardMarkup(row_width=2)
+    # btn_dis_activate = InlineKeyboardButton(text="Activate", callback_data='activ')
+    # btn_dis_disactivate = InlineKeyboardButton(text="Disactivate", callback_data='disactiv')
+    async with state.proxy() as data:
+        data['data'] = message.text
+        result = db.new_posts(data.get('data'))
+        if result:
+            for i in result:
+                await bot.send_photo(message.from_user.id, i[2],
+                                     f"""ID: {i[0]}\nCreate at: {i[1]}\nUser id: {i[3]}\nUsername: {i[4]}\nDescription: {i[7]}\nCategory 1: {i[5]}\nCategory 2: {i[6]}""")
+            await message.answer("Menu", reply_markup=btn_for_admin())
+        else:
+            await message.answer("Post not found")
+
+
+# --------------------------------------------------------------------------------------------
+
+# async def dis_activ_post(callback: types.CallbackQuery):
+
+
 # --------------------------------------------------------------------------------------------
 
 def register_admin(dp: Dispatcher):
-    dp.register_message_handler(addball, commands='addball')
+    dp.register_message_handler(admin, commands='admin')
+    dp.register_callback_query_handler(addball, text='addball')
     dp.register_message_handler(step_1, state=AddBall.user_id)
     dp.register_message_handler(step_2, state=AddBall.ball)
 
     dp.register_message_handler(selndall, commands='sendall')
 
-    # dp.register_callback_query_handler(ReadNewPost, text='newposts') #by data
+    dp.register_callback_query_handler(read_new_posts, text='newposts')  # by data
+    dp.register_message_handler(read_new_posts_step_1, state=AdminReadNewPostsByData.data)  # by data

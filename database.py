@@ -44,18 +44,17 @@ class DataBase:
 
     def all_users(self, id):
         with self.connection:
-            return self.cursor.execute("Select * from users where user_id = ?", (id,)).fetchone()
-
+            return self.cursor.execute("Select * from users where user_id = ?", (id,))
 
     def all_products(self):
         with self.connection:
             return self.cursor.execute("select * from products")
 
-    def add_product(self, created_at, photo, user_id, user_name, product_type, sub_category, decription):
+    def add_product(self, created_at, photo, user_id, user_name, product_type, sub_category, decription, sell_or_buy):
         with self.connection:
             return self.cursor.execute(
-                """INSERT OR IGNORE INTO products(created_at, photo, user_id, user_name, product_type, sub_category, decription) VALUES (?,?,?,?,?,?,?)""",
-                (created_at, photo, user_id, user_name, product_type, sub_category, decription))
+                """INSERT OR IGNORE INTO products(created_at, photo, user_id, user_name, product_type, sub_category, decription, sell_or_buy) VALUES (?,?,?,?,?,?,?,?)""",
+                (created_at, photo, user_id, user_name, product_type, sub_category, decription, sell_or_buy))
 
     def coin(self, id):
         user_ball = self.cursor.execute("select ball from users where user_id = ?", (id,))
@@ -88,4 +87,4 @@ class DataBase:
 
     def new_posts(self, data):
         with self.connection:
-            return self.cursor.execute("select * from products where create_at = ?", (data,)).fetchall()
+            return self.cursor.execute("select * from products where created_at = ?", (data,))

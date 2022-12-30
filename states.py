@@ -7,19 +7,30 @@ class CreateUserState(StatesGroup):
     phone = State()
 
 
-class InsetProduct(StatesGroup):
+class CategorysForSell(StatesGroup):
     product_type = State()
+    sub_category = State()
+    text = State()
     photo = State()
-    decription = State()
-    category = State()  # sub category
-    user_id = State()
-    user_name = State()
+    phone = State()
+    status = State()
+    id = State()
+    name = State()
     created_at = State()
+    sell_or_buy = State()
 
 
 class CategorysForSearch(StatesGroup):
     product_type = State()
     sub_category = State()
+    text = State()
+    photo = State()
+    phone = State()
+    status = State()
+    id = State()
+    name = State()
+    created_at = State()
+    sell_or_buy = State()
 
 
 class AddBall(StatesGroup):
@@ -27,5 +38,5 @@ class AddBall(StatesGroup):
     ball = State()
 
 
-class Admin(StatesGroup):
+class AdminReadNewPostsByData(StatesGroup):
     data = State()

@@ -1,14 +1,13 @@
 import logging
 from aiogram import executor, types
-# from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from app.func_ import check_lan_and_btn
-from app.search import register_search
+from app.mycobinet.mycobinet import register_mycb
+from app.search_me import register_search
 from buttons import mycb_uz, mycb_en
 from create_bot import dp
 from app.sell import regiter_handler_sell
 from app.start import register_handler_start
-from app.mycobinet.mycobinet import register_mycb
 from app.admin.admin import register_admin
 
 logging.basicConfig(level=logging.INFO)

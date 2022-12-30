@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType
-from buttons import phone, choice_lang, main_menu_en, main_menu_uz
+from buttons import phone_en, choice_lang, main_menu_en, main_menu_uz
 from messages import uz_name, en_name, uz_phone, en_phone, uz_name_wrong, en_name_wrong, uz_register, en_registerd, \
     Tanlang_uz, Tanlang_en
 from states import CreateUserState
@@ -43,10 +43,10 @@ async def main(message: types.Message, state: FSMContext = None):
         if message.content_type == 'text' and message.text != "/start":
             data['name'] = message.text
             if data.get('lan') == 'uz':
-                await message.answer(uz_phone, reply_markup=phone())
+                await message.answer(uz_phone, reply_markup=phone_en())
                 await CreateUserState.phone.set()
             else:
-                await message.answer(en_phone, reply_markup=phone())
+                await message.answer(en_phone, reply_markup=phone_en())
                 await CreateUserState.phone.set()
         else:
             if data.get('lan') == 'uz':
@@ -75,10 +75,10 @@ async def phone_(message: types.Message, state: FSMContext):
             await state.finish()
         else:
             if data.get('lan') == 'uz':
-                await message.answer(uz_phone, reply_markup=phone())
+                await message.answer(uz_phone, reply_markup=phone_en())
                 await CreateUserState.phone.set()
             else:
-                await message.answer(en_phone, reply_markup=phone())
+                await message.answer(en_phone, reply_markup=phone_en())
                 await CreateUserState.phone.set()
 
 

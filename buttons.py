@@ -1,17 +1,17 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
-number = KeyboardButton("Telefon raqamni jo‘natish", request_contact=True)
+number_uz = KeyboardButton("Telefon raqamni jo‘natish", request_contact=True)
+number_en = KeyboardButton("SEnd phone number", request_contact=True)
+
 uzb_lang = InlineKeyboardButton("🇺🇿 O'zbekcha", callback_data='uz')
 en_lang = InlineKeyboardButton("🇺🇸 English", callback_data='en')
 
 # uz
 search_inl = InlineKeyboardButton("🔎 Qidirish", callback_data='search')
-mypr_inl = InlineKeyboardButton("💼 Mening kabinetim", callback_data='mypr')
 cell_inl = InlineKeyboardButton("🛍 Sotish", callback_data='cell')
 
 # en
 search = InlineKeyboardButton("🔎 Search", callback_data='search')
-mypr = InlineKeyboardButton("💼 My profile", callback_data='mypr')
 cell = InlineKeyboardButton("🛍 Sell", callback_data='cell')
 
 # uz
@@ -40,11 +40,20 @@ metali = InlineKeyboardButton("Metal", callback_data='metal')
 mebeli = InlineKeyboardButton("Furniture", callback_data='mebel')
 plastiki = InlineKeyboardButton("Plastic", callback_data='plastik')
 
-my_posts_uz = InlineKeyboardButton(text="Mening e'lonlarim", callback_data='mypost')
-my_profil_uz = InlineKeyboardButton(text="Mening profilm", callback_data='myprofil')
+my_posts_uz = InlineKeyboardButton(text="📨Mening e'lonlarim", callback_data='mypost')
+my_profil_uz = InlineKeyboardButton(text="💼Mening profilm", callback_data='myprofil')
 
-my_posts_en = InlineKeyboardButton(text="My posts", callback_data='mypost')
-my_profil_en = InlineKeyboardButton(text="My profile", callback_data='myprofil')
+my_posts_en = InlineKeyboardButton(text="📨My posts", callback_data='mypost')
+my_profil_en = InlineKeyboardButton(text="💼My profile", callback_data='myprofil')
+
+btn_add_ball = InlineKeyboardButton(text='➕Add ball', callback_data='addball')
+btn_new_post = InlineKeyboardButton(text='🆕New posts', callback_data='newposts')
+
+btn_yes = InlineKeyboardButton(text='☑ Yes', callback_data='yes')
+btn_no = InlineKeyboardButton(text='⛔ No', callback_data='no')
+
+btnphone_uz = KeyboardButton("Telefon raqamingizni jo'nating", request_contact=True)
+btnphone_en = KeyboardButton("Send phone number", request_contact=True)
 
 
 def mycb_uz():
@@ -59,9 +68,17 @@ def mycb_en():
     return markup
 
 
-def phone():
+def phone_uz():
     style = [
-        [number],
+        [number_uz],
+    ]
+    markup = ReplyKeyboardMarkup(keyboard=style, resize_keyboard=True, one_time_keyboard=True)
+    return markup
+
+
+def phone_en():
+    style = [
+        [number_en],
     ]
     markup = ReplyKeyboardMarkup(keyboard=style, resize_keyboard=True, one_time_keyboard=True)
     return markup
@@ -75,13 +92,13 @@ def choice_lang():
 
 def main_menu_en():
     markup = InlineKeyboardMarkup(row_width=2)
-    markup.add(search, mypr, cell)
+    markup.add(search, cell, my_profil_en, my_posts_en)
     return markup
 
 
 def main_menu_uz():
     markup = InlineKeyboardMarkup(row_width=2)
-    markup.add(search_inl, mypr_inl, cell_inl)
+    markup.add(search_inl, cell_inl, my_profil_uz, my_posts_uz)
     return markup
 
 
@@ -107,3 +124,15 @@ def sub_category_en():
     makup = InlineKeyboardMarkup(row_width=2)
     makup.add(agroi, tekstili, metali, mebeli, plastiki)
     return makup
+
+
+def btn_for_admin():
+    markup = InlineKeyboardMarkup(row_width=2)
+    markup.add(btn_add_ball, btn_new_post)
+    return markup
+
+
+def btn_yes_no():
+    markup = InlineKeyboardMarkup(row_width=2)
+    markup.add(btn_yes, btn_no)
+    return markup
