@@ -13,7 +13,8 @@ async def my_posts(callback: types.CallbackQuery):
     if my_post:
         for i in my_post:
             await bot.send_photo(callback.from_user.id, i[2],
-                                 f'ID:{i[0]}USER\nID:{i[3]}\nDescription: {i[7]}\n{i[5]}\n#{i[6]}')
+                                 f"📂Descripton: {i[7]}\n\n👤Username: {i[4]}\n\n#{i[-1]} #{i[5]} #{i[6]}",
+                                 parse_mode="Markdown")
         await bot.send_message(callback.from_user.id, "Delete", reply_markup=btn_for_delete_post())
         await check_lan_and_btn(callback.from_user.id, "Menu", "Menu", main_menu_uz(),
                                 main_menu_en())

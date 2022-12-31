@@ -57,20 +57,29 @@ async def category_5(message: types.Message, state: FSMContext):
                 data['phone'] = number
                 data['status'] = 'no'
                 data['id'] = message.from_user.id
-                data['name'] = message.from_user.full_name
+                if message.from_user.username:
+                    data['name'] = message.from_user.username
+                if message.from_user.full_name:
+                    data['user_name'] = message.from_user.full_name
                 data['created_at'] = datetime.strftime(datetime.now(), '%Y-%m-%d')
                 await bot.send_photo(message.from_user.id, data['photo'],
-                                     f"Category 1:#{data.get('product_type')}\nCategory 2:#{data.get('sub_category')}\nDescripton:{data.get('text')}\nPhone number:{data.get('phone')}\nName:{data.get('name')}\n{data.get('sell_or_buy')}",
-                                     reply_markup=btn_yes_no())
+                                     f"📂 {data.get('text')}\n\n☎ {data.get('phone')}\n\n👤 {data.get('user_name')}\n\n✏️ @{data.get('name')}\n\n#{data.get('sell_or_buy')} #{data.get('product_type')} #{data.get('sub_category')}\n\n*TEXT*",
+                                     parse_mode="Markdown", reply_markup=btn_yes_no())
     await CategorysForSearch.next()
 
 
 async def category_6(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['status'] = callback.data
-        await bot.send_photo('@TESt_my_bo', data['photo'],
-                             f"📂Descripton: {data.get('text')}\n\n📱Phone number: {data.get('phone')}\n\n👤Username: {data.get('name')}\n\n#{data.get('sell_or_buy')} #{data.get('product_type')} #{data.get('sub_category')}\n\n*TEXT*",
-                             parse_mode="Markdown")
+        if data.get('name'):
+            await bot.send_photo('@TESt_my_bo', data['photo'],
+                                 f"📂 {data.get('text')}\n\n☎ {data.get('phone')}\n\n👤 {data.get('user_name')}\n\n✏️ @{data.get('name')}\n\n#{data.get('sell_or_buy')} #{data.get('product_type')} #{data.get('sub_category')}\n\n*TEXT*",
+                                 parse_mode="Markdown")
+        else:
+            await bot.send_photo('@TESt_my_bo', data['photo'],
+                                 f"📂 {data.get('text')}\n\n☎ {data.get('phone')}\n\n👤 {data.get('user_name')}\n\n#{data.get('sell_or_buy')} #{data.get('product_type')} #{data.get('sub_category')}\n\n*TEXT*",
+                                 parse_mode="Markdown")
+
         await check_lan_and_btn(callback.from_user.id, "Menyu", "Manu", main_menu_uz(), main_menu_en())
         db.add_product(data.get('created_at'), data.get('photo'), data.get('id'), data.get('name'),
                        data.get('product_type'), data.get('sub_category'), data.get('text'), data.get('sell_or_buy'))

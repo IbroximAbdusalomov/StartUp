@@ -29,6 +29,7 @@ class CategorysForSearch(StatesGroup):
     status = State()
     id = State()
     name = State()
+    user_name = State()
     created_at = State()
     sell_or_buy = State()
 
