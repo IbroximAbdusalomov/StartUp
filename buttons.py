@@ -50,7 +50,7 @@ my_profil_en = InlineKeyboardButton(text="💼My profile", callback_data='myprof
 
 btn_add_ball = InlineKeyboardButton(text='➕Add ball', callback_data='addball')
 btn_new_post = InlineKeyboardButton(text='🆕New posts', callback_data='newposts')
-btn_add_admin = InlineKeyboardButton(text='Add admin', callback_data='adadmin')
+btn_add_admin = InlineKeyboardButton(text='Add admin', callback_data='addadmin')
 
 btn_yes = InlineKeyboardButton(text='☑ Yes', callback_data='yes')
 btn_no = InlineKeyboardButton(text='⛔ No', callback_data='no')

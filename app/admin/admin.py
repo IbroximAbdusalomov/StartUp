@@ -81,6 +81,14 @@ async def add_admin(callback: types.CallbackQuery):
     await bot.send_message(callback.from_user.id, "Userni idsini jo'nating")
 
 
+async def add_admin_1(message: types.Message):
+    try:
+        db.dbaddadmin(message.text)
+        await bot.send_message(message.from_user.id, "Sucses")
+    except:
+        await bot.send_message(message.from_user.id, "Id xato")
+
+
 # --------------------------------------------------------------------------------------------
 
 def register_admin(dp: Dispatcher):
@@ -93,3 +101,5 @@ def register_admin(dp: Dispatcher):
 
     dp.register_callback_query_handler(read_new_posts, text='newposts')
     dp.register_message_handler(read_new_posts_step_1, state=AdminReadNewPostsByData.data)
+    dp.register_callback_query_handler(add_admin, text='addadmin')
+    dp.register_message_handler(add_admin_1)

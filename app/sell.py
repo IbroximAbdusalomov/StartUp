@@ -69,10 +69,12 @@ async def category_6(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['status'] = callback.data
         await bot.send_photo('@TESt_my_bo', data['photo'],
-                             f"Category 1:#{data.get('product_type')}\nCategory 2:#{data.get('sub_category')}\nDescripton:{data.get('text')}\nPhone number:{data.get('phone')}\nName:{data.get('name')}\n{data.get('sell_or_buy')}")
+                             f"📂Descripton: {data.get('text')}\n\n📱Phone number: {data.get('phone')}\n\n👤Username: {data.get('name')}\n\n#{data.get('sell_or_buy')} #{data.get('product_type')} #{data.get('sub_category')}\n\n*TEXT*",
+                             parse_mode="Markdown")
         await check_lan_and_btn(callback.from_user.id, "Menyu", "Manu", main_menu_uz(), main_menu_en())
         db.add_product(data.get('created_at'), data.get('photo'), data.get('id'), data.get('name'),
                        data.get('product_type'), data.get('sub_category'), data.get('text'), data.get('sell_or_buy'))
+    await state.finish()
 
 
 def regiter_handler_sell(dp: Dispatcher):

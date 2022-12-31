@@ -1,9 +1,11 @@
 from aiogram import types
+from aiogram.dispatcher import FSMContext
 
 from app.func_ import check_lan_and_btn
 from buttons import main_menu_uz, main_menu_en, btn_for_delete_post
 from create_bot import db, bot, Dispatcher
 from messages import Tanlang_uz, Tanlang_en
+from states import DElPost
 
 
 async def my_posts(callback: types.CallbackQuery):
@@ -31,17 +33,23 @@ async def my_profile(callback: types.CallbackQuery):
 
 async def delete_post_0(callback: types.CallbackQuery):
     await bot.send_message(callback.from_user.id, "Po'stni idsini jo'nating")
+    await DElPost.id.set()
 
 
-async def delete_post_1(message: types.Message):
-    try:
-        db.del_post(message.text, message.from_user.id)
-    except:
-        await bot.send_message(message.from_user.id, "Id xato")
+async def delete_post_1(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['id'] = message.text
+        data['user_id'] = message.from_user.id
+        try:
+            db.del_post(data.get('id'), data.get('user_id'))
+            await bot.send_message(message.from_user.id, "Deleted", reply_markup=main_menu_en())
+        except:
+            await bot.send_message(message.from_user.id, "Id xato")
+    await state.finish()
 
 
 def register_mycb(dp: Dispatcher):
     dp.register_callback_query_handler(my_posts, text='mypost')
     dp.register_callback_query_handler(my_profile, text='myprofil')
     dp.register_callback_query_handler(delete_post_0, text='del')
-    dp.register_message_handler(delete_post_1)
+    dp.register_message_handler(delete_post_1, state=DElPost.id)

@@ -43,4 +43,5 @@ class AdminReadNewPostsByData(StatesGroup):
 
 
 class DElPost(StatesGroup):
+    id = State()
     user_id = State()

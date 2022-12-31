@@ -1,8 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.types import ContentType, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ContentType
 from buttons import phone_en, choice_lang, main_menu_en, main_menu_uz
-from messages import uz_name, en_name, uz_phone, en_phone, uz_name_wrong, en_name_wrong, uz_register, en_registerd, \
+from messages import uz_phone, en_phone, uz_register, en_registerd, \
     Tanlang_uz, Tanlang_en
 from states import CreateUserState
 from create_bot import bot, db, Dispatcher
@@ -24,7 +24,7 @@ async def choice_language(callback: types.CallbackQuery, state: FSMContext):
             data['lan'] = callback.data
             # await bot.send_message(callback.from_user.id, en_phone, reply_markup=phone_en())
             await bot.send_message(callback.from_user.id, en_phone, parse_mode='markdown', reply_markup=phone_en())
-            await CreateUserState.phone.set()
+    await CreateUserState.phone.set()
 
 
 # -----------------------------------------------------------------------------------------------------------------------
@@ -60,11 +60,11 @@ async def phone_(message: types.Message, state: FSMContext):
                 db.add_user(message.from_user.id, data.get('name'), number, data.get('lan'))
                 if data.get('lan') == 'uz':
                     await message.answer(uz_register, reply_markup=main_menu_uz())
-                    await CreateUserState.phone.set()
+                    # await CreateUserState.phone.set()
                 elif data.get('lan') == 'en':
                     await message.answer(en_registerd, reply_markup=main_menu_en())
-                    await CreateUserState.phone.set()
-            await state.finish()
+                    # await CreateUserState.phone.set()
+            # await state.finish()
         else:
             if data.get('lan') == 'uz':
                 await message.answer(uz_phone, reply_markup=phone_en())
