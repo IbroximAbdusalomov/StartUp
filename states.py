@@ -40,3 +40,7 @@ class AddBall(StatesGroup):
 
 class AdminReadNewPostsByData(StatesGroup):
     data = State()
+
+
+class DElPost(StatesGroup):
+    user_id = State()

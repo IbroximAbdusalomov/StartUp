@@ -1,5 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
+# btn_menu = KeyboardButton("/Menu")
+
 number_uz = KeyboardButton("Telefon raqamni jo‘natish", request_contact=True)
 number_en = KeyboardButton("SEnd phone number", request_contact=True)
 
@@ -48,12 +50,15 @@ my_profil_en = InlineKeyboardButton(text="💼My profile", callback_data='myprof
 
 btn_add_ball = InlineKeyboardButton(text='➕Add ball', callback_data='addball')
 btn_new_post = InlineKeyboardButton(text='🆕New posts', callback_data='newposts')
+btn_add_admin = InlineKeyboardButton(text='Add admin', callback_data='adadmin')
 
 btn_yes = InlineKeyboardButton(text='☑ Yes', callback_data='yes')
 btn_no = InlineKeyboardButton(text='⛔ No', callback_data='no')
 
 btnphone_uz = KeyboardButton("Telefon raqamingizni jo'nating", request_contact=True)
 btnphone_en = KeyboardButton("Send phone number", request_contact=True)
+
+btn_delete = InlineKeyboardButton(text='🗑️ Delete', callback_data='del')
 
 
 def mycb_uz():
@@ -128,11 +133,17 @@ def sub_category_en():
 
 def btn_for_admin():
     markup = InlineKeyboardMarkup(row_width=2)
-    markup.add(btn_add_ball, btn_new_post)
+    markup.add(btn_add_ball, btn_new_post, btn_add_admin)
     return markup
 
 
 def btn_yes_no():
     markup = InlineKeyboardMarkup(row_width=2)
     markup.add(btn_yes, btn_no)
+    return markup
+
+
+def btn_for_delete_post():
+    markup = InlineKeyboardMarkup(row_width=2)
+    markup.add(btn_delete)
     return markup

@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-# from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from app.func_ import check_lan
 from buttons import btn_for_admin
@@ -34,6 +33,7 @@ async def step_1(message: types.Message, state: FSMContext):
 async def step_2(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['ball'] = message.text
+        ball = db.user_exists(data.get('user_id'))
         db.set_ball(data.get('user_id'), data.get('ball'))
     await state.finish()
     await bot.send_message(message.from_user.id, "Added", reply_markup=btn_for_admin())
@@ -50,7 +50,6 @@ async def selndall(message: types.message):
                     await bot.send_message(i[3], text)
                 except:
                     await check_lan(message.from_user.id, "User yo'q", "Users not found")
-        # print('Send text all users')
 
         else:
             await bot.send_message(message.from_user.id, "Command not found")
@@ -64,9 +63,6 @@ async def read_new_posts(callback: types.CallbackQuery):
 
 
 async def read_new_posts_step_1(message: types.Message, state: FSMContext):
-    # markup = InlineKeyboardMarkup(row_width=2)
-    # btn_dis_activate = InlineKeyboardButton(text="Activate", callback_data='activ')
-    # btn_dis_disactivate = InlineKeyboardButton(text="Disactivate", callback_data='disactiv')
     async with state.proxy() as data:
         data['data'] = message.text
         result = db.new_posts(data.get('data'))
@@ -81,7 +77,8 @@ async def read_new_posts_step_1(message: types.Message, state: FSMContext):
 
 # --------------------------------------------------------------------------------------------
 
-# async def dis_activ_post(callback: types.CallbackQuery):
+async def add_admin(callback: types.CallbackQuery):
+    await bot.send_message(callback.from_user.id, "Userni idsini jo'nating")
 
 
 # --------------------------------------------------------------------------------------------
@@ -94,5 +91,5 @@ def register_admin(dp: Dispatcher):
 
     dp.register_message_handler(selndall, commands='sendall')
 
-    dp.register_callback_query_handler(read_new_posts, text='newposts')  # by data
-    dp.register_message_handler(read_new_posts_step_1, state=AdminReadNewPostsByData.data)  # by data
+    dp.register_callback_query_handler(read_new_posts, text='newposts')
+    dp.register_message_handler(read_new_posts_step_1, state=AdminReadNewPostsByData.data)

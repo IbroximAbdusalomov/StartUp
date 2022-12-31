@@ -88,3 +88,12 @@ class DataBase:
     def new_posts(self, data):
         with self.connection:
             return self.cursor.execute("select * from products where created_at = ?", (data,))
+
+    def del_post(self, id, UserId):
+        with self.connection:
+            return self.cursor.execute("DELETE FROM products WHERE id = ? and user_id = ?", (id, UserId))
+
+    def dbaddadmin(self, id):
+        with self.connection:
+            return self.cursor.execute("UPDATE users SET status = 'ADMIN' WHERE user_id = ?", (id,))
+

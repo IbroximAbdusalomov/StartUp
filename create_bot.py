@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 
 from database import DataBase
 logging.basicConfig(level=logging.INFO)
-API_TOKEN = '5846618049:AAG9qpx1jFee4E26RtCvwt9pI2bBYFINhpY'
+API_TOKEN = '5663518655:AAHTdZh4HaQRfRTKaykpFDkYhNy6YajLUN4'
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 db = DataBase('database.sqlite')
